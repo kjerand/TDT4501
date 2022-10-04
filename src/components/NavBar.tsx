@@ -1,7 +1,11 @@
 import React from "react";
 const NavBar = () => {
   return (
-    <nav className=" bg-[#51abcb] w-full flex relative justify-between items-center mx-auto px-8 h-20"></nav>
+    <nav className="bg-[#4c4eba] w-full flex relative justify-between items-center mx-auto px-8 h-20">
+      <p className="font-medium leading-tight text-xl text-slate-100">
+        TDT4501
+      </p>
+    </nav>
   );
 };
 
