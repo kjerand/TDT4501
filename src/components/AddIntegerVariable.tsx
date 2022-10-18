@@ -1,49 +1,87 @@
 import { EditorState, Modifier } from "draft-js";
 import { useState } from "react";
 import Immutable from "immutable";
+import Button from "./Button";
 
 const AddIntegerVariable = ({
   editorState,
   setEditorState,
+  integerVariables,
+  setIntegerVariables,
 }: {
   editorState: EditorState;
   setEditorState: Function;
+  integerVariables: IntegerVariable[];
+  setIntegerVariables: Function;
 }) => {
   const { OrderedSet } = Immutable;
-  const [name, setName] = useState<string>("");
+  const [integerVariable, setIntegerVariable] = useState<IntegerVariable>({
+    name: "",
+    min: 0,
+    max: 0,
+  });
 
-  const onSumbit = () => {
-    if (name != "") {
-      let newContent = Modifier.insertText(
-        editorState.getCurrentContent(),
-        editorState.getSelection(),
-        `{{${name}}}`,
-        OrderedSet.of("BOLD", "ITALIC")
-      );
+  const addVariable = () => {
+    let exists = false;
+    integerVariables.forEach((v) => {
+      if (v.name == integerVariable.name) exists = true;
+    });
+    if (!exists)
+      if (integerVariable.name != "") {
+        let newContent = Modifier.insertText(
+          editorState.getCurrentContent(),
+          editorState.getSelection(),
+          `{{${integerVariable.name}}}`,
+          OrderedSet.of("BOLD")
+        );
 
-      setEditorState(
-        EditorState.push(editorState, newContent, "insert-characters")
-      );
-    }
+        setEditorState(
+          EditorState.push(editorState, newContent, "insert-characters")
+        );
+
+        setIntegerVariables(integerVariable);
+      }
   };
   return (
-    <div className="my-10 border-t-4 border-gray-700 pt-4">
+    <div className="my-5 pt-4 flex">
       <input
         type={"string"}
         placeholder="Navn"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-      />
-      <input type={"number"} placeholder="Minimum" />
-      <input type={"number"} placeholder="Maximum" />
-      <button
-        onClick={(event) => {
-          event.preventDefault();
-          onSumbit();
+        value={integerVariable.name}
+        onChange={(event) => {
+          setIntegerVariable({ ...integerVariable, name: event.target.value });
         }}
-      >
-        Legg til variabel
-      </button>
+        className="w-24 border-gray-600 border p-2 mr-2"
+      />
+      <input
+        type={"number"}
+        placeholder="Minimum"
+        onChange={(event) => {
+          setIntegerVariable({
+            ...integerVariable,
+            min: parseInt(event.target.value),
+          });
+        }}
+        className="border-gray-600 border p-2 mr-2"
+      />
+      <input
+        type={"number"}
+        placeholder="Maximum"
+        onChange={(event) => {
+          setIntegerVariable({
+            ...integerVariable,
+            max: parseInt(event.target.value),
+          });
+        }}
+        className="border-gray-600 border p-2 mr-2"
+      />
+      <Button
+        onClick={() => {
+          addVariable();
+        }}
+        text="Legg til variabel"
+        className="bg-blue-700 ml-auto mr-3"
+      />
     </div>
   );
 };

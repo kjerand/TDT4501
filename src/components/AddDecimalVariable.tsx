@@ -1,6 +1,7 @@
 import { EditorState, Modifier } from "draft-js";
 import { useState } from "react";
 import Immutable from "immutable";
+import Button from "./Button";
 
 const AddDecimalVariable = ({
   editorState,
@@ -27,23 +28,27 @@ const AddDecimalVariable = ({
     }
   };
   return (
-    <div className="my-10 border-t-4 p-4 border-gray-700">
+    <div className="my-5 pt-4 flex">
       <input
         type={"string"}
         placeholder="Navn"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
+        className="w-24 border-gray-600 border p-2 mr-2"
       />
-      <input type={"number"} placeholder="Minimum" />
-      <input type={"number"} placeholder="Maximum" />
-      <button
-        onClick={(event) => {
-          event.preventDefault();
-          onSumbit();
-        }}
-      >
-        Legg til variabel
-      </button>
+      <input
+        type={"number"}
+        placeholder="Minimum"
+        className="border-gray-600 border p-2 mr-2"
+      />
+      <input
+        type={"number"}
+        placeholder="Maximum"
+        className="border-gray-600 border p-2 mr-2"
+      />
+      <Button
+        onClick={() => {}}
+        text="Legg til variabel"
+        className="bg-blue-700 ml-auto mr-3"
+      />
     </div>
   );
 };
